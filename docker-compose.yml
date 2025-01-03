@@ -1,0 +1,70 @@
+# In here we have used path vlumes. Based on the PC you have to change the volumns path
+
+services:
+  # Postgres for Keycloak
+  postgres_keycloak:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /Users/Nipunaperera/Surge/Avonet/Volumes/keycloak-db:/var/lib/postgresql/data
+    healthcheck:
+      test: 'exit 0'
+    ports:
+      - '5436:5432'
+    networks:
+      - keycloak_network
+
+  # Keycloak service for the expenses application
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    container_name: qe-keycloak-dev
+    command:
+      - start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_keycloak
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_HEALTH_ENABLED: 'true'
+      KEYCLOAK_LOG_LEVEL: DEBUGß
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres_keycloak:
+        condition: service_healthy
+    healthcheck:
+      test: 'curl -f http://localhost:8080/health/ready || exit 1'
+    networks:
+      - keycloak_network
+    restart: always
+
+  # MongoDB for the expenses application
+  mongo_database:
+    image: mongo:latest
+    container_name: mongo_database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: expenses-management
+    volumes:
+      - /Users/Nipunaperera/Surge/Avonet/Volumes/mongo-qe:/data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - ea_network
+    healthcheck:
+      test: "mongo --eval 'db.runCommand({ ping: 1 })' || exit 1"
+
+networks:
+  keycloak_network:
+    driver: bridge
+  ea_network:
+    driver: bridge
+
+
