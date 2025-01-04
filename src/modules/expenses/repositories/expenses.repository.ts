@@ -12,7 +12,7 @@ export class ExpensesRepository implements IBaseRepository<Expense> {
         @InjectModel(Expense.name) private expenseModel: Model<Expense>,
     ) {}
     /**
-     *
+     * Expenses related create expenses db oprations handle on here
      * @param entity
      * @returns
      */
@@ -32,7 +32,7 @@ export class ExpensesRepository implements IBaseRepository<Expense> {
         }
     }
     /**
-     *
+     * Expenses related filtering expenses db oprations handle on here
      * @param filters
      * @returns
      */
@@ -62,7 +62,7 @@ export class ExpensesRepository implements IBaseRepository<Expense> {
         return this.expenseModel.find(query).exec();
     }
     /**
-     *
+     * Expenses related update expenses db oprations handle on here
      * @param id
      * @param entity
      * @returns
@@ -76,7 +76,7 @@ export class ExpensesRepository implements IBaseRepository<Expense> {
             .exec();
     }
     /**
-     *
+     * Single expense fetching database oparations handle on here
      * @param id
      * @returns
      */
@@ -84,7 +84,7 @@ export class ExpensesRepository implements IBaseRepository<Expense> {
         return this.expenseModel.findOne({ _id: id, ...filters }).exec();
     }
     /**
-     *
+     * Delete expenses database oparations handle on here
      * @param id
      * @returns
      */
