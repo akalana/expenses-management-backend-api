@@ -1,12 +1,20 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Patch,
     Post,
     Query,
 } from '@nestjs/common';
+
+import {
+    CreateExpenseRequestDto,
+    ListExpenseRequestDto,
+    UpdateExpenseRequestDto,
+} from '@modules/expenses/dto';
+import { ExpensesService } from '@modules/expenses/expenses.service';
 
 import {
     CreateUserRequestDto,
@@ -20,7 +28,10 @@ import { UsersService } from './users.service';
     path: 'users', // Base path for this controller
 })
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(
+        private readonly usersService: UsersService,
+        private readonly expensesService: ExpensesService,
+    ) {}
     /**
      * This controller method define the getting request and sending response regarding user
      * creation process
@@ -64,5 +75,66 @@ export class UsersController {
         @Body() updateUserRequestDto: UpdateUserRequestDto,
     ) {
         return this.usersService.update(id, updateUserRequestDto);
+    }
+    /**
+     *
+     * @param id
+     * @param createExpenseRequestDto
+     * @returns
+     */
+    @Post(':userId/expenses')
+    createExpense(
+        @Param('userId') userId: string,
+        @Body() createExpenseRequestDto: CreateExpenseRequestDto,
+    ) {
+        return this.expensesService.create(userId, createExpenseRequestDto);
+    }
+    /**
+     *
+     * @param userId
+     * @param id
+     * @param updateExpenseRequestDto
+     * @returns
+     */
+    @Patch(':userId/expenses/:id')
+    updateExpense(
+        @Param('userId') userId: string,
+        @Param('id') id: string,
+        @Body() updateExpenseRequestDto: UpdateExpenseRequestDto,
+    ) {
+        return this.expensesService.update(userId, id, updateExpenseRequestDto);
+    }
+    /**
+     *
+     * @param userId
+     * @param id
+     * @returns
+     */
+    @Delete(':userId/expenses/:id')
+    deleteExpense(@Param('userId') userId: string, @Param('id') id: string) {
+        return this.expensesService.remove(userId, id);
+    }
+    /**
+     *
+     * @param userId
+     * @param listExpenseRequestDto
+     * @returns
+     */
+    @Get(':userId/expenses')
+    listOfExpenses(
+        @Param('userId') userId: string,
+        @Query() listExpenseRequestDto: ListExpenseRequestDto,
+    ) {
+        return this.expensesService.findAll(userId, listExpenseRequestDto);
+    }
+    /**
+     *
+     * @param userId
+     * @param listExpenseRequestDto
+     * @returns
+     */
+    @Get(':userId/expenses/:id')
+    expensesById(@Param('userId') userId: string, @Param('id') id: string) {
+        return this.expensesService.findOne(userId, id);
     }
 }

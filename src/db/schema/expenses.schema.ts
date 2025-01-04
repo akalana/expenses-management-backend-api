@@ -13,7 +13,7 @@ export class Expense extends Document {
     @Prop({ type: Types.ObjectId, ref: User.name, required: true })
     userId: Types.ObjectId;
 
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     name: string;
 
     @Prop({})
@@ -21,6 +21,13 @@ export class Expense extends Document {
 
     @Prop({ required: true })
     amount: number;
+
+    @Prop({ required: true })
+    date: Date;
 }
 //
-export const ExpenseSchema = SchemaFactory.createForClass(Expense);
+const ExpenseSchema = SchemaFactory.createForClass(Expense);
+//
+ExpenseSchema.index({ userId: 1, name: 1 }, { unique: true });
+//
+export { ExpenseSchema };

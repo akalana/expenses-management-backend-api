@@ -21,9 +21,10 @@ export interface IBaseRepository<T, K = Partial<T>> {
     /**
      * Retrieves an entity by using its ID.
      * @param {string} id The ID of the entity to be retrieved.
+     * @param {object | null} filters Filters to apply to the query (optional).
      * @returns {Promise<T>} A promise that resolves to the entity with the specified ID.
      */
-    findOne?(id: string): Promise<T>;
+    findOne?(id: string, filters?: Partial<T>): Promise<T>;
 
     /**
      * Updates an existing entity using ID.
@@ -36,7 +37,8 @@ export interface IBaseRepository<T, K = Partial<T>> {
     /**
      * Removes an entity by using its ID.
      * @param {string} id The ID of the entity to be removed.
+     * @param {object | null} filters Filters to apply to the query (optional).
      * @returns {Promise<T>} A promise that resolves to the removed entity.
      */
-    remove?(id: string | string[]): Promise<T | T[]>;
+    remove?(id: string | string[], filters?: Partial<T>): Promise<T | T[]>;
 }
