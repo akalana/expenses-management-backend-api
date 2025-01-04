@@ -13,7 +13,7 @@ import { ExpensesRepository } from './repositories/expenses.repository';
 export class ExpensesService {
     constructor(private expensesRepository: ExpensesRepository) {}
     /**
-     *
+     * Expense creation process realted to things define here
      * @param createExpenseRequestDto
      * @returns
      */
@@ -24,7 +24,7 @@ export class ExpensesService {
         });
     }
     /**
-     *
+     * Expenses fetching related function define here. Based on the name and date can filter the expenses
      * @param userId
      * @param ListExpenseRequestDto
      * @returns
@@ -36,7 +36,7 @@ export class ExpensesService {
         });
     }
     /**
-     *
+     * Getting details of the specific expense details based on the user id and expense id
      * @param id
      * @returns
      */
@@ -46,7 +46,7 @@ export class ExpensesService {
         });
     }
     /**
-     *
+     * Update the existing expense
      * @param id
      * @param updateExpenseDto
      * @returns
@@ -62,7 +62,7 @@ export class ExpensesService {
         });
     }
     /**
-     *
+     * Delete expenses based on the user id and expense id
      * @param userId
      * @param id
      * @returns

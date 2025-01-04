@@ -77,7 +77,7 @@ export class UsersController {
         return this.usersService.update(id, updateUserRequestDto);
     }
     /**
-     *
+     * This controller method define to the store the expenses under the user
      * @param id
      * @param createExpenseRequestDto
      * @returns
@@ -90,7 +90,7 @@ export class UsersController {
         return this.expensesService.create(userId, createExpenseRequestDto);
     }
     /**
-     *
+     * This controller method define to the update the expenses under the selected user
      * @param userId
      * @param id
      * @param updateExpenseRequestDto
@@ -105,7 +105,7 @@ export class UsersController {
         return this.expensesService.update(userId, id, updateExpenseRequestDto);
     }
     /**
-     *
+     * This controller method define to delete the expenses under the user
      * @param userId
      * @param id
      * @returns
@@ -115,7 +115,7 @@ export class UsersController {
         return this.expensesService.remove(userId, id);
     }
     /**
-     *
+     * This controller method define to listing all the available expenses based on the user
      * @param userId
      * @param listExpenseRequestDto
      * @returns
@@ -128,7 +128,7 @@ export class UsersController {
         return this.expensesService.findAll(userId, listExpenseRequestDto);
     }
     /**
-     *
+     * This controller method define to get specific expenses based on the user and expenses ID
      * @param userId
      * @param listExpenseRequestDto
      * @returns
