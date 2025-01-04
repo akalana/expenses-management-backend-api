@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import databaseConfig from '@config/database-config';
 
+import { UsersModule } from '@modules/users/users.module';
+
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -12,6 +14,7 @@ import databaseConfig from '@config/database-config';
             load: [databaseConfig], // Load all the defined configuration
         }),
         MongooseModule,
+        UsersModule,
     ],
     controllers: [],
     providers: [],

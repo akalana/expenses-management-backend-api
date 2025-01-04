@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 /**
@@ -12,11 +14,14 @@ export class User extends Document {
     @Prop({ required: true })
     firstName: string;
 
-    @Prop({ required: true })
+    @Prop()
     lastName: string;
 
     @Prop({ required: true })
     sub: string;
+
+    @Prop({ default: 0 })
+    maxExpensesLimit: number;
 }
 //
 export const UserSchema = SchemaFactory.createForClass(User);
