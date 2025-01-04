@@ -4,4 +4,5 @@
  */
 export enum CONFIG_NAMESPACES {
     DB = 'DB',
+    KEYCLOAK = 'KEYCLOAK',
 }

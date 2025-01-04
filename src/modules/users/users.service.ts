@@ -2,6 +2,8 @@ import { User } from '@db/schema';
 
 import { Injectable } from '@nestjs/common';
 
+import { KeycloakService } from '@modules/keycloak/keycloak.service';
+
 import {
     CreateUserRequestDto,
     ListUsersRequestDto,
@@ -11,14 +13,24 @@ import { UsersRepository } from './repositories/users.repository';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly userRepository: UsersRepository) {}
+    constructor(
+        private readonly userRepository: UsersRepository,
+        private readonly keycloakService: KeycloakService,
+    ) {}
     /**
      * Define all the business logics realted to user creation process
      * @param createUserRequestDto
      * @returns
      */
     async create(createUserRequestDto: CreateUserRequestDto): Promise<User> {
-        return this.userRepository.create(createUserRequestDto);
+        const user = await this.keycloakService.getUser(
+            createUserRequestDto.username,
+        );
+        //
+        return this.userRepository.create({
+            ...createUserRequestDto,
+            sub: user.id,
+        });
     }
     /**
      * Define all the business logics and values transformations reagarding user listing

@@ -30,5 +30,6 @@ export class CreateUserRequestDto {
     @IsUUID('4', {
         message: 'UserId must be a valid UUID',
     })
+    @IsOptional()
     sub: string;
 }
