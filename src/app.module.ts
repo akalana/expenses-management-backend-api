@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import databaseConfig from '@config/database-config';
 
@@ -10,6 +11,7 @@ import databaseConfig from '@config/database-config';
             cache: true, // This will help for the improve performance
             load: [databaseConfig], // Load all the defined configuration
         }),
+        MongooseModule,
     ],
     controllers: [],
     providers: [],
