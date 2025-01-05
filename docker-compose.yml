@@ -37,6 +37,7 @@ services:
       KEYCLOAK_LOG_LEVEL: DEBUG
     ports:
       - "8080:8080"
+      - "9000:9000"
     depends_on:
       postgres_keycloak:
         condition: service_healthy
