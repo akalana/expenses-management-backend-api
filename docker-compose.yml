@@ -1,26 +1,28 @@
-# In here we have used path vlumes. Based on the PC you have to change the volumns path
-
 services:
   # Postgres for Keycloak
   postgres_keycloak:
     image: postgres:latest
+    container_name: postgres_keycloak
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     volumes:
-      - /Users/Nipunaperera/Surge/Avonet/Volumes/keycloak-db:/var/lib/postgresql/data
+      - ./volumes/keycloak-db:/var/lib/postgresql/data
     healthcheck:
-      test: 'exit 0'
+      test: ["CMD", "pg_isready", "-U", "keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
-      - '5436:5432'
+      - "5436:5432"
     networks:
       - keycloak_network
 
   # Keycloak service for the expenses application
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.2
-    container_name: qe-keycloak-dev
+    container_name: keycloak
     command:
       - start-dev
     environment:
@@ -32,14 +34,17 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
       KC_HEALTH_ENABLED: 'true'
-      KEYCLOAK_LOG_LEVEL: DEBUGß
+      KEYCLOAK_LOG_LEVEL: DEBUG
     ports:
       - "8080:8080"
     depends_on:
       postgres_keycloak:
         condition: service_healthy
     healthcheck:
-      test: 'curl -f http://localhost:8080/health/ready || exit 1'
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - keycloak_network
     restart: always
@@ -53,18 +58,37 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: expenses-management
     volumes:
-      - /Users/Nipunaperera/Surge/Avonet/Volumes/mongo-qe:/data/db
+      - ./volumes/mongo-qe:/data/db
     ports:
-      - '27017:27017'
+      - "27017:27017"
     networks:
       - ea_network
     healthcheck:
-      test: "mongo --eval 'db.runCommand({ ping: 1 })' || exit 1"
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # App service
+  app:
+    build:
+      context: .
+    container_name: expenses_app
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: mongodb://root:password@mongo_database:27017/expenses-management?authSource=admin
+      KC_BASE_URL: http://keycloak:8080
+      KC_WEB_CLIENT_ID: your_client_id
+      KC_WEB_CLIENT_SECRET: your_client_secret
+    depends_on:
+      - postgres_keycloak
+      - mongo_database
+    networks:
+      - ea_network
 
 networks:
   keycloak_network:
     driver: bridge
   ea_network:
     driver: bridge
-
-
