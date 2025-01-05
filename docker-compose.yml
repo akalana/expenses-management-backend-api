@@ -81,6 +81,7 @@ services:
       KC_BASE_URL: http://keycloak:8080
       KC_WEB_CLIENT_ID: your_client_id
       KC_WEB_CLIENT_SECRET: your_client_secret
+      KC_REALM: avonet
     depends_on:
       - postgres_keycloak
       - mongo_database
