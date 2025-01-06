@@ -35,7 +35,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: password
       KC_HEALTH_ENABLED: 'true'
       KEYCLOAK_LOG_LEVEL: DEBUG
-      PROXY_ADDRESS_FORWARDING: 'true'
+      # PROXY_ADDRESS_FORWARDING: 'true'
       KC_HOSTNAME: auth-avonet.fitoncollection.com
       KC_HOSTNAME_STRICT_HTTPS: 'true'
     ports:
