@@ -26,8 +26,4 @@ export class Expense extends Document {
     date: Date;
 }
 //
-const ExpenseSchema = SchemaFactory.createForClass(Expense);
-//
-ExpenseSchema.index({ userId: 1, name: 1 }, { unique: true });
-//
-export { ExpenseSchema };
+export const ExpenseSchema = SchemaFactory.createForClass(Expense);
