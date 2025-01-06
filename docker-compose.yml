@@ -83,7 +83,7 @@ services:
       - "3001:3001"
     environment:
       DATABASE_URL: mongodb://root:password@mongo_database:27017/expenses-management?authSource=admin
-      KC_BASE_URL: http://keycloak:8080
+      KC_BASE_URL: https://auth-avonet.fitoncollection.com
       KC_WEB_CLIENT_ID: avonet-web-client
       KC_WEB_CLIENT_SECRET: UMIBRluBOrGzCSvMEGe33RbI0RdaiD4j
       KC_REALM: avonet
