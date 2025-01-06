@@ -23,14 +23,19 @@ export class UsersService {
      * @returns
      */
     async create(createUserRequestDto: CreateUserRequestDto): Promise<User> {
-        const user = await this.keycloakService.getUser(
-            createUserRequestDto.username,
-        );
-        //
-        return this.userRepository.create({
-            ...createUserRequestDto,
-            sub: user.id,
-        });
+        try {
+            console.log(createUserRequestDto);
+            const user = await this.keycloakService.getUser(
+                createUserRequestDto.username,
+            );
+            //
+            return this.userRepository.create({
+                ...createUserRequestDto,
+                sub: user.id,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
     /**
      * Define all the business logics and values transformations reagarding user listing
