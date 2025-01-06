@@ -36,8 +36,8 @@ services:
       KC_HEALTH_ENABLED: 'true'
       KEYCLOAK_LOG_LEVEL: DEBUG
       # PROXY_ADDRESS_FORWARDING: 'true'
-      KC_HOSTNAME: auth-avonet.fitoncollection.com
-      KC_HOSTNAME_STRICT_HTTPS: 'true'
+      # KC_HOSTNAME: auth-avonet.fitoncollection.com
+      # KC_HOSTNAME_STRICT_HTTPS: 'true'
     ports:
       - "8080:8080"
       - "9000:9000"
